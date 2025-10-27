@@ -1,8 +1,7 @@
 package chinh.nguyen.runnerz;
 
-import chinh.nguyen.runnerz.run.Location;
-import chinh.nguyen.runnerz.run.Run;
-import chinh.nguyen.runnerz.run.RunRepository;
+import chinh.nguyen.runnerz.user.User;
+import chinh.nguyen.runnerz.user.UserRestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -10,8 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @SpringBootApplication
 public class Application {
@@ -24,12 +22,14 @@ public class Application {
     }
 
 
-//    @Bean
-//    CommandLineRunner runner(RunRepository runRepository) {
-//        return args -> {
-//            Run run = new Run(1, "FirstRun", LocalDateTime.now(), LocalDateTime.now().plus(1, ChronoUnit.HOURS), 5, Location.OUTDOOR);
-////            log.info("Run: " + run);
-//            runRepository.create(run);
-//        };
-//    }
+    @Bean
+    CommandLineRunner runner(UserRestClient client) {
+        return args -> {
+            List<User> users = client.findAll();
+            System.out.println(users);
+
+            User user = client.findById(1);
+            System.out.println(user);
+        };
+    }
 }
